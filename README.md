@@ -1,1 +1,1 @@
-Création d'une application de suivi des tâches avec REACT ayant des composants et des interfaces pour gérer les listes de tâches et les rappels.
+Created a task tracking application with REACT having components and interfaces to manage task lists and reminders.
