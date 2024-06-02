@@ -1,49 +1,35 @@
+// App.js
 import React, { useState } from 'react';
+import AddTask from './components/AddTask';
+import TaskList from './components/TaskList';
 
-function TodoList() {
-  // State to hold the to-do items
-  const [todos, setTodos] = useState([]);
+function App() {
+  const [tasks, setTasks] = useState([]);
 
-  // Function to add a new to-do item
-  const addTodo = (text) => {
-    setTodos([...todos, { text, completed: false }]);
+  const addTask = (taskName) => {
+    setTasks([...tasks, { id: Date.now(), name: taskName, completed: false }]);
   };
 
-  // Function to toggle the completion status of a to-do item
-  const toggleTodo = (id) => {
-    setTodos(
-      todos.map((todo, index) => (index === id ? { ...todo, completed: !todo.completed } : todo))
-    );
+  const toggleTaskCompletion = (taskId) => {
+    setTasks(tasks.map((task) => {
+      if (task.id === taskId) {
+        return { ...task, completed: !task.completed };
+      }
+      return task;
+    }));
   };
 
-  // Function to remove a to-do item
-  const removeTodo = (id) => {
-    setTodos(todos.filter((todo, index) => index !== id));
+  const deleteTask = (taskId) => {
+    setTasks(tasks.filter((task) => task.id !== taskId));
   };
 
   return (
-    <div>
-      <h1>To-Do List</h1>
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        const text = e.target.elements.todoText.value;
-        addTodo(text);
-        e.target.elements.todoText.value = '';
-      }}>
-        <input type="text" id="todoText" placeholder="Enter a new to-do item" />
-        <button type="submit">Add</button>
-      </form>
-      <ul>
-        {todos.map((todo, index) => (
-          <li key={index}>
-            <input type="checkbox" checked={todo.completed} onChange={() => toggleTodo(index)} />
-            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
-            <button onClick={() => removeTodo(index)}>Remove</button>
-          </li>
-        ))}
-      </ul>
+    <div className="App">
+      <h1>Application de suivi des tâches</h1>
+      <AddTask addTask={addTask} />
+      <TaskList tasks={tasks} toggleTaskCompletion={toggleTaskCompletion} deleteTask={deleteTask} />
     </div>
   );
 }
 
-export default TodoList;
+export default App;
